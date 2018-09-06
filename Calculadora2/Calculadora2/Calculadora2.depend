@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1536085341 source:c:\users\rikj5\desktop\c\calculadora2\calculadora2.c
+
+1536266406 source:c:\users\rikj5\desktop\c\calculadora2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"calculadora2.h"
+
+1536260893 c:\users\rikj5\desktop\c\calculadora2\calculadora2.h
+
