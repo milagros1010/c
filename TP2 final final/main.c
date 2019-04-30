@@ -7,7 +7,7 @@
 
 typedef struct
 {
-    int id;
+    int id=0;
     char name[51];
     char lastName[51];
     float salary;
@@ -19,7 +19,7 @@ typedef struct
 
 int buscarEspacioLibre(Employee vec[],int tam);
 int buscarEmpleado(Employee vec[],int tam,int id);
-int altaEmpleado(int idA, char nameAux, char lastNameAux, int salaryAux, char sectorAux);
+int altaEmpleado(int idA, char nameAux, char lastNameAux, int salaryAux, char sectorAux,Employee vec[],int tam);
 int getStringLetras(char msj[],char input[]);
 int soloLetras(char str[]);
 int getStringNumeros(char mensaje[],char input[]);
@@ -39,7 +39,7 @@ int main()
     int idA=1;
     inicializarEmpleados(lista,TAM);
     buscarEspacioLibre(lista,TAM);
-    idEmpleado(lista,TAM);
+    //idEmpleado(lista,TAM);
 
     do
     {
@@ -92,97 +92,115 @@ int main()
         }
 
 
-    }while(opcion!=6);
+    }
+    while(opcion!=6);
 
-            return 0;
+    return 0;
 
 }
 
-    void inicializarEmpleados(Employee vec[],int tam)
+void inicializarEmpleados(Employee vec[],int tam)
+{
+    int i;
+    for(i=0; i<tam; i++)
     {
-        int i;
-        for(i=0; i<tam; i++)
-        {
 
-            vec[i].isEmpty=0;
-
-        }
-
-
-    }
-
-    int buscarEspacioLibre(Employee vec[],int tam)
-    {
-        int i;
-        int index;
-        for(i=0; i<tam; i++)
-        {
-
-            index=-1;
-
-            if(vec[i].isEmpty==0)
-            {
-
-                index=i;
-                break;
-
-            }
-
-        }
-            return index;
-
+        vec[i].isEmpty=0;
 
     }
 
 
+}
 
-
-
-
-
-    int buscarEmpleado(Employee vec[],int tam,int idModificar)
+int buscarEspacioLibre(Employee vec[],int tam)
+{
+    int i;
+    int index;
+    for(i=0; i<tam; i++)
     {
-        int i;
-        int index;
 
         index=-1;
-        for(i=0; i<tam; i++)
+
+        if(vec[i].isEmpty==0)
         {
 
-            if(vec[i].id==idModificar && vec[i].isEmpty == 1)
-            {
+            index=i;
+            break;
 
-                index = i;
-                break;
-            }
-
-            return index;
         }
 
+    }
+    return index;
 
+
+}
+
+
+
+
+
+
+
+int buscarEmpleado(Employee vec[],int tam,int idModificar)
+{
+    int i;
+    int index;
+
+    index=-1;
+    for(i=0; i<tam; i++)
+    {
+
+        if(vec[i].id==idModificar && vec[i].isEmpty == 1)
+        {
+
+            index = i;
+            break;
+        }
+
+        return index;
+    }
+
+
+
+}
+
+void cargarDatos(Employee vec[],int tam,int idA)
+{
+
+    char nameAux[51];
+    char lastNameAux[51];
+    char salaryAux[21];
+    char sectorAux[21];
+    int todoOk;
+
+    printf("ID Empleado: %d \n",idA);
+
+    if(!getStringLetras("ingrese nombre",nameAux))
+    {
+        printf("Error. Ingrese solo letras");
+    }
+
+    if(!getStringLetras("ingrese apellido",lastNameAux))
+    {
+
+        printf("Error. Ingrese solo letras");
 
     }
 
-    void cargarDatos(Employee vec[],int tam,int idA)
+    if(!getStringNumeros("ingrese salario",salaryAux))
     {
 
-        char nameAux[51];
-        char lastNameAux[51];
-        float salaryAux;
-        int sectorAux;
-        int todoOk;
+        printf("Error. Ingrese solo numeros");
 
-        printf("ID Empleado: %d \n",idA);
 
-        while(!getStringLetras("ingrese nombre",nameAux));
+        if(!getStringNumeros("ingrese sector",sectorAux))
+        {
 
-        while(!getStringLetras("ingrese apellido",lastNameAux));
+            printf("Error. Ingrese solo numeros");
 
-        while(!getStringNumeros("ingrese salario",salaryAux));
+        }
 
-        while(!getStringNumeros("ingrese sector",sectorAux));
-
-        todoOk = altaEmpleado(idA,nameAux,lastNameAux,salaryAux,sectorAux,vec);
+        todoOk = altaEmpleado(idA,nameAux,lastNameAux,salaryAux,sectorAux,vec,tam);
 
         if(todoOk==1)
         {
@@ -197,11 +215,11 @@ int main()
     }
 
 
-    int altaEmpleado(int idA, char nameAux, char lastNameAux, int salaryAux, char sectorAux)
+    int altaEmpleado(int idA, char nameAux, char lastNameAux, int salaryAux, char sectorAux,Employee vec[], int tam)
     {
         int indice;
 
-        indice = buscarEspacioLibre(lista,tam);
+        indice = buscarEspacioLibre(vec,tam);
 
         todoOk=-2;
 
@@ -212,11 +230,18 @@ int main()
         }
         else
         {
-            strcpy(lista[indice].id,idA);
-            strcpy(lista[indice].name,nameAux);
-            strcpy(lista[indice].lastName,lastNameAux);
-            strcpy(lista[indice].salary,salaryAux);
-            strcpy(lista[indice].sector,sectorAux);
+
+            vec.id = idA;
+            //strcpy(vec[indice].id,idA);
+            strcpy(vec[indice].name,nameAux);
+            strcpy(vec[indice].lastName,lastNameAux);
+           // salaryAux = atof(salaryAux);
+            //vec.salary = salaryAux;
+
+            vec.salary = atof(salaryAux);
+           // sectorAux = atof(sectorAux);
+           // vec.sector = sectorAux;
+            vec.sector = atof(sectorAux);
 
             todoOk=1;
         }
@@ -238,196 +263,223 @@ int main()
                 strcpy(input,aux);
                 return 1;
             }
-            else
+        }
+    }
+
+
+
+    return 0 ;
+}
+
+
+int soloLetras(char str[])
+{
+    int i=0;
+    int retorno = 1;
+    if(str[i] == '\0')
+        retorno = 0;
+    else
+    {
+        while(str[i] != '\0'  )
+        {
+            if(  (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
             {
-                printf("\nError!, ingrese solo letras.\n");
+                retorno = 0;
+                break;
             }
-        }
-
-
-
-        return 0 ;
-    }
-
-
-    int soloLetras(char str[])
-    {
-        int i=0;
-        int retorno = 1;
-        if(str[i] == '\0')
-            retorno = 0;
-        else
-        {
-            while(str[i] != '\0'  )
-            {
-                if(  (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
-                {
-                    retorno = 0;
-                    break;
-                }
-                i++;
-            }
-        }
-        return retorno;
-    }
-
-    int getStringNumeros(char mensaje[],char input[])
-    {
-
-
-        char aux[256];
-        getString(mensaje,aux);
-
-
-        if(esNumerico(aux))
-        {
-            strcpy(input,aux);
-            return 1;
-        }
-        else
-        {
-            printf("Error, ingrese solo numeros.");
-        }
-
-
-
-
-        return 0;
-    }
-
-    int esNumerico(char str[])
-    {
-        int i=0;
-        while(str[i] != '\0' || str[i]!= NULL )
-        {
-            if(str[i] < '0' || str[i] > '9')
-                return 0;
             i++;
         }
+    }
+    return retorno;
+}
+
+int getStringNumeros(char mensaje[],char input[])
+{
+
+
+    char aux[256];
+    getString(mensaje,aux);
+
+
+    if(esNumerico(aux))
+    {
+        strcpy(input,aux);
         return 1;
     }
 
 
-    void getString (char msj[],char input[])
+
+
+
+
+    return 0;
+}
+
+int esNumerico(char str[])
+{
+    int i=0;
+    while(str[i] != '\0' || str[i]!= NULL )
     {
-        printf("%s",msj);
-        fflush(stdin) ;
-        gets(input) ;
+        if(str[i] < '0' || str[i] > '9')
+            return 0;
+        i++;
+    }
+    return 1;
+}
 
 
-        void bajaEmpleado(Employee vec[],int tam)
+void getString (char msj[],char input[])
+{
+    printf("%s",msj);
+    fflush(stdin) ;
+    gets(input) ;
+
+
+    void bajaEmpleado(Employee vec[],int tam)
+    {
+
+        int idBorrar;
+
+        getStringNumeros("ingrese id a borrar",idBorrar);
+
+        todoOk = borrarEmpleado(vec,tam,idBorrar);
+
+        if(todoOk==1)
         {
+            printf("Borrado con exito");
 
-            int idBorrar;
-
-            getStringNumeros("ingrese id a borrar",idBorrar);
-
-            todoOk = borrarEmpleado(vec,tam,idBorrar);
-
-            if(todoOk==1)
-            {
-                printf("Borrado con exito");
-
-            }
-            else
-            {
-                printf("Error, no pudo ser borrado");
-
-            }
-
-
+        }
+        else
+        {
+            printf("Error, no pudo ser borrado");
 
         }
 
 
-        int borrarEmpleado(Employee vec[],int tam,int idBorrar)
+
+    }
+
+
+    int borrarEmpleado(Employee vec[],int tam,int idBorrar)
+    {
+        int i;
+        int flag = -1;
+        for(i=0; i<tam; i++)
         {
-            int i;
-            int flag = -1;
-            for(i=0; i<tam; i++)
+
+            if(vec[i].id == idBorrar && vec[i].isEmpty == 1)
             {
 
-                if(vec[i].id == idBorrar && vec[i].isEmpty == 1)
-                {
-
-                    vec[i].isEmpty = 0;
-                    flag = 1;
-                    break;
-                }
-                return flag;
+                vec[i].isEmpty = 0;
+                flag = 1;
+                break;
             }
+        }
+        return flag;
 
-            void modificarEmpleado(Employee vec[],int tam)
+    }
+    void modificarEmpleado(Employee vec[],int tam)
+    {
+        int idModificar;
+        int i;
+        int opcionM;
+        char nameAux[51];
+        char lastNameAux[51];
+        int sectoryAux;
+        float salarioAux;
+        int indice;
+
+        printf("ingrese id del empleado que desea modificar");
+        scanf("%d",&idModificar);
+
+        indice = buscarEmpleado(vec,tam,idModificar);
+
+
+        if(indice==-2)
+        {
+            printf("El id ingresado no existe");
+        }
+        else
+        {
+
+            do
             {
-                int idModificar;
-                int i;
-                int opcionM;
-                char nombreAux[51];
-                char apellidoAux[51];
-                int sectorAux;
-                float salarioAux;
-
-                printf("ingrese id del empleado que desea modificar");
-                scanf("%d",&idModificar);
-
-                indice = buscarEmpleado(vec,tam,idModificar);
 
 
-                if(indice==-2)
-                {
-                    printf("El id ingresado no existe");
-                }
-                else
+                printf("MENU MODIFICACION");
+                printf("1.Modificar nombre");
+                printf("2.Modificar apellido");
+                printf("3.Modificar salario");
+                printf("4.Modificar sector");
+                printf("5.Salir");
+                printf("Ingrese opcion: ");
+                scanf("%d",&opcionM);
+
+                switch(opcionM)
                 {
 
-                    do
+                case 1:
+                    if(!getStringLetras("ingrese nuevo nombre"),nameAux)
                     {
 
-
-                        printf("MENU MODIFICACION");
-                        printf("1.Modificar nombre");
-                        printf("2.Modificar apellido");
-                        printf("3.Modificar salario");
-                        printf("4.Modificar sector");
-                        printf("5.Salir");
-                        printf("Ingrese opcion: ");
-                        scanf("%d"&opcionM);
-
-                        switch(opcionM)
-                        {
-
-                        case 1:
-                            while(!getStringLetras("ingrese nuevo nombre"),nameAux);
-                            stcopy(vec[indice].name,nombreAux);
-                            break;
-
-                        case 2:
-                            while(!getStringLetras("ingrese nuevo apellido"),lastNameAux);
-                            stcopy(vec[indice].lastName,apellidoAux);
-                            break;
-
-                        case 3:
-                            while(!getStringNumeros("ingrese salario"),salaryAux);
-                            stcopy(vec[indice].salary,salarioAux);
-                            break;
-
-                        case 4:
-                            while(!getStringNumeros("ingrese sector"),sectorAux);
-                            stcopy(vec[indice].sector,sectorAux);
-                            break;
-                        }
-
+                        printf("Error.Ingrese solo letras");
                     }
-                    while(opcionM!=5);
+                    else
+                    {
+                        strcpy(vec[indice].name,nameAux);
+                    }
 
+                    break;
 
+                case 2:
+                    if(!getStringLetras("ingrese nuevo apellido"),lastNameAux)
+                    {
+
+                        printf("Error.Ingrese solo letras")
+                    }
+                    else
+                    {
+                        strcpy(vec[indice].lastName,lastNameAux);
+                    }
+
+                    break;
+
+                case 3:
+                    if(!getStringNumeros("ingrese salario"),salaryAux)
+                    {
+                        printf("Error.Ingrese solo numeros");
+                    }
+                    else
+                    {
+                        salaryAux = atof(salarioAux);
+                        strcpy(vec[indice].salary,salaryAux);
+                    }
+                    break;
+
+                case 4:
+                    if(!getStringNumeros("ingrese sector"),sectorAux)
+                    {
+                        printf("Error.Ingrese solo numeros");
+                    }
+                    else
+                    {
+                        sectoryAux = atof(sectoryAux);
+                        strcpy(vec[indice].sector,sectoryAux);
+                    }
+                    break;
                 }
 
-
-
-
-
             }
+            while(opcionM!=5);
 
 
         }
+
+
+
+
+
+    }
+
+
+}
