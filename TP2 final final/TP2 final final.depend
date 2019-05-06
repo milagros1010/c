@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1556742172 source:c:\users\mecanica compasi\desktop\c-master\tp2 final final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+
+1557171452 source:c:\users\mecanica compasi\desktop\c-master\tp2 final final\tp2 final final\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+
