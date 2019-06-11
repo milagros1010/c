@@ -56,12 +56,28 @@ int ll_len(LinkedList* this)
 static Node* getNode(LinkedList* this, int nodeIndex)
 {
     Node* pNode = NULL;
+    int i;
+    //if(this!=NULL){
+        if(this!=NULL && nodeIndex >= 0 && nodeIndex < ll_len(this)){//indice con ll-len
 
-    if(this!=NULL && nodeIndex >= 0 && nodeIndex < this->size){
+            pNode = this->pFirstNode;//direccion de memoria del primer elemento
 
-    Node = ll_get(this,nodeIndex); //malllll
-    // Node* pNode;
-    }
+            for(i=0;i<nodeIndex;i++){
+
+                pNode = pNode->pNextNode;
+
+            }
+
+
+         /*   while(nodeIndex > 0){
+
+                pNode = pNode->pNextNode;
+                nodeIndex--;//descuento hasta llegar a nodeIndex que me pide
+            }*/
+
+
+        }
+    //}
 
     return pNode;
 }
@@ -76,6 +92,9 @@ static Node* getNode(LinkedList* this, int nodeIndex)
  */
 Node* test_getNode(LinkedList* this, int nodeIndex)
 {
+
+
+    //devuelve el vagon
     return getNode(this, nodeIndex);
 }
 
@@ -343,6 +362,6 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     int returnAux =-1;
 
     return returnAux;
-
+//le pasa una funcion or parametro / burbujeo
 }
 
