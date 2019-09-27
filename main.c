@@ -1,76 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+#include "carrera.h"
+#include "alumno.h"
+
+#define TAM 10
+#define TAMC 3
+
+int menu();
 
 int main()
 {
-    int* vec;
-    int* aux;
-         vec = (int*)   malloc(sizeof(int)* 5);
+    int legajo = 20000;
+    eCarrera carreras[TAMC]={{1000,"TUP"},{1001,"TUSI"},{1002,"LIC"}};
+    eAlumno lista[TAM];
+    char salir = 'n';
 
-         if(vec == NULL){
+    inicializarAlumnos( lista, TAM);
 
-            printf("No se consiguio memoria\n");
-            exit(1);
-         }
+    legajo = legajo + hardcodearAlumnos(lista, TAM, 6);
 
-        for(int i=0; i < 5; i++){
-              printf("Ingrese un numero: ");
-              scanf("%d", vec + i);
+    do
+    {
+        switch( menu())
+        {
+        case 1:
+            if(altaAlumno(lista, TAM, legajo, carreras, TAMC))
+            {
+                legajo++;
+            }
+            break;
 
+        case 2:
+            bajaAlumno(lista, TAM, carreras, TAMC);
+            break;
+
+        case 3:
+            ModificarAlumno(lista, TAM, carreras, TAMC);
+            break;
+
+        case 4:
+            mostrarAlumnos(lista, TAM, carreras, TAMC);
+            break;
+
+        case 5:
+
+            ordenarAlumnos(lista, TAM);
+            break;
+
+        case 6:
+            printf("Informes Alumno\n\n");
+            break;
+        case 7:
+            mostrarCarreras(carreras, TAMC);
+            break;
+
+        case 8:
+            printf("Confirma salir?:");
+            fflush(stdin);
+            salir = getche();
+            break;
+
+        default:
+            printf("\nOpcion Invalida!\n\n");
         }
-
-
-           for(int i=0; i < 5; i++){
-              printf("%d ", *(vec + i));
-
-
-        }
-
-       printf("\n\n");
-
-
-      aux =  (int*) realloc( vec, sizeof(int)*10);
-
-      if( aux != NULL){
-        vec = aux;
-
-         for(int i=5; i < 10; i++){
-         printf("Ingrese un numero: ");
-        scanf("%d", vec + i);
-
-      }
-
-
-      for(int i=0; i < 10; i++){
-              printf("%d ", *(vec + i));
-
-
-        }
-
-      vec = (int*) realloc(vec, sizeof(int)* 5);
-
-  printf("\n\n");
-
-       for(int i=0; i < 10; i++){
-              printf("%d ", *(vec + i));
-
-
-        }
-
-  printf("\n\n");
-
-
-      }
-      else{
-      printf("No se pudo agrandar el array\n");
-
-      }
-
-
-
-         free(vec);
-
-
+        system("pause");
+    }
+    while(salir == 'n');
 
     return 0;
 }
+
+int menu()
+{
+    int opcion;
+
+    system("cls");
+    printf("****** ABM Alumnos *******\n\n");
+    printf("1-Alta alumno\n");
+    printf("2-Baja alumno\n");
+    printf("3-Modificar alumno\n");
+    printf("4-Listar alumnos\n");
+    printf("5-Ordenar alumnos\n");
+    printf("6-Informes alumno\n");
+    printf("7-Mostrar Carreras\n");
+    printf("8-Salir\n\n");
+    printf("Ingrese opcion: ");
+    scanf("%d", &opcion);
+
+    return opcion;
+}
+
+
+
